@@ -2,7 +2,6 @@ package Repository;
 
 import Enums.StatusGrupoConsorcioEnum;
 import Models.GrupoConsorcio;
-
 import java.util.ArrayList;
 
 public class GrupoConsorcioRepository {
@@ -14,22 +13,29 @@ public class GrupoConsorcioRepository {
 
     public void getAllGrupos() {
         if (grupos.isEmpty()) {
-            System.out.println("Nenhum grupo foi criado!");
+            System.out.println("\nNenhum grupo foi criado!\n");
         } else {
-            System.out.println("Lista de grupos:");
+            System.out.println("\nLista de grupos:");
             for (GrupoConsorcio grupo : grupos) {
                 System.out.printf("- %s (participantes: %d)\n", grupo.getNomeGrupo(), grupo.getNumeroParticipantes());
             }
         }
     }
 
-    public String getGrupoByName(String nomeGrupo) {
+    public void getGrupoByName(String nomeGrupo) {
+        GrupoConsorcio grupoTemp = null;
+
         for (GrupoConsorcio grupo : grupos) {
             if (grupo.getNomeGrupo().equalsIgnoreCase(nomeGrupo)) {
-                return grupo.toString();
+                grupoTemp = grupo;
             }
         }
-        return "Grupo não encontrado!";
+
+        if (grupoTemp != null) {
+            System.out.println(grupoTemp);
+        } else {
+            System.out.println("\nO grupo procurado não foi encontrado!\n");
+        }
     }
 
     public void createGrupoConsorcio(String nomeGrupo, int numeroParticipantes, double valorTotal, double taxaAdmin) {
@@ -37,16 +43,20 @@ public class GrupoConsorcioRepository {
 
         grupos.add(grupoConsorcio);
 
-        System.out.printf("Grupo %s criado e adicionado com sucesso!\n", grupoConsorcio.getNomeGrupo());
+        System.out.println(grupoConsorcio);
+
+        System.out.printf("Grupo '%s' criado e adicionado com sucesso!\n\n", grupoConsorcio.getNomeGrupo());
     }
 
-    public boolean updateGrupoConsorcio(
+    public void updateGrupoConsorcio(
             String nomeGrupo,
             int novoNumeroParticipantes,
             double novoValorTotal,
             double novoTaxaAdmin,
             StatusGrupoConsorcioEnum statusGrupoConsorcio
     ) {
+        GrupoConsorcio grupoTemp = null;
+
         for (int i = 0; i < grupos.size(); i++) {
             if (grupos.get(i).getNomeGrupo().equalsIgnoreCase(nomeGrupo)) {
                 if(novoNumeroParticipantes >= 0) {
@@ -61,13 +71,27 @@ public class GrupoConsorcioRepository {
                 if(statusGrupoConsorcio != null) {
                     grupos.get(i).setStatusGrupoConsorcio(statusGrupoConsorcio);
                 }
-                return true;
+
+                double novoValorParcela = ((novoValorTotal + novoValorTotal * novoTaxaAdmin) / novoNumeroParticipantes);
+
+                if(novoValorParcela >= 0) {
+                    grupos.get(i).setValorParcela(novoValorParcela);
+                }
+
+                grupoTemp = grupos.get(i);
             }
         }
-        return false;
+
+        if (grupoTemp != null) {
+            System.out.println(grupoTemp);
+
+            System.out.printf("\nGrupo '%s' criado e adicionado com sucesso!\n", grupoTemp.getNomeGrupo());
+        } else {
+            System.out.println("Grupo não foi encontrado, logo não foi posspivel atualizá-lo!\n");
+        }
     }
 
-    public boolean deleteGrupoConsorcio(String nomeGrupo) {
+    public void deleteGrupoConsorcio(String nomeGrupo) {
         GrupoConsorcio grupoTemp = null;
         for (int i = 0; i < grupos.size(); i++) {
             if (grupos.get(i).getNomeGrupo().equalsIgnoreCase(nomeGrupo)) {
@@ -77,9 +101,10 @@ public class GrupoConsorcioRepository {
 
         if (grupoTemp != null) {
             grupos.remove(grupoTemp);
-            return true;
-        }
 
-        return false;
+            System.out.printf("Grupo: %s deletado com sucesso!\n", grupoTemp.getNomeGrupo());
+        } else {
+            System.out.println("Não foi possível deletar o grupo, pois esse não foi encontrado!");
+        }
     }
 }

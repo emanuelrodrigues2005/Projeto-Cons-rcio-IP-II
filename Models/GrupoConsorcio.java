@@ -150,10 +150,13 @@ public class GrupoConsorcio {
     }
 
     public String toString() {
-        return "Grupo: " + getNomeGrupo() + " | "
-                + "Número de Participantes: " + getNumeroParticipantes() + " | "
-                + "Valor total do Consórcio: " + getValorTotal() + " | "
-                + "Valor de Parcela: " + getValorParcela() + " | "
-                + "Taxa de Administração: " + getTaxaAdmin();
+        return "Grupo: " + getNomeGrupo() + " { "
+                + "\n  Número de Participantes: " + getNumeroParticipantes() + " | "
+                + "\n  Valor total do Consórcio: " + getValorTotal() + " | "
+                + "\n  Valor de Parcela: " + getValorParcela() + " | "
+                + "\n  Taxa de Administração: " + getTaxaAdmin()
+                + "\n  Status: " + getStatusGrupoConsorcio()
+                + "\n}";
+
     }
 }
