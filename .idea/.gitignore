@@ -1,20 +1,16 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-# Editor-based HTTP Client requests
-/httpRequests/
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
-IP_Project.iml
-material_theme_project_new.xml
-misc.xml
-vcs.xml
-workspace.xml
-modules.xml
-Cliente.class
-Contemplacao.class
-GrupoConsorcio.class
+# Ignorar pastas de saída de compilação
+/out/
+
+# Ignorar arquivos do IntelliJ IDEA
+.idea/
+*.iml
+
+# Ignorar arquivos do Eclipse (se não forem usados)
 .classpath
 .project
-/out/
+
+# Ignorar arquivos de configuração ou temporários
+*.class
+
+# Arquivos adicionais de configuração ou ambiente local
+*.xml
