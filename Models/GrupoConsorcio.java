@@ -157,6 +157,5 @@ public class GrupoConsorcio {
                 + "\n  Taxa de Administração: " + getTaxaAdmin()
                 + "\n  Status: " + getStatusGrupoConsorcio()
                 + "\n}";
-
     }
 }
