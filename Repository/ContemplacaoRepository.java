@@ -1,68 +1,78 @@
+package Repository;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+import Models.Contemplacao;
+import Models.Contrato;
+
 public class ContemplacaoRepository {
     private ArrayList<Contemplacao> contemplacoes;
     
-    //CREATE
-    public void createContemplacao(Contrato contratoContemplacao, LocalDate dataContemplacao){
-        if(contratoContemplacao != null && dataContemplacao != null){
-        Contemplacao contemplacao = new Contemplacao(contratoContemplacao, dataContemplacao);
-        contemplacoes.add(contemplacao);
-        System.out.println("Contemplação criada e adicionada com sucesso!\n\n");
+    public ContemplacaoRepository() {
+        this.contemplacoes = new ArrayList<>();
+    }
+
+
+    public void createContemplacao(Contrato contratoContemplacao){
+        if (contratoContemplacao != null) {
+            Contemplacao contemplacao = new Contemplacao(contratoContemplacao);
+            contemplacoes.add(contemplacao);
+            System.out.printf("\nContemplação criada e adicionada com sucesso!\n\n%sData: %s\n", contratoContemplacao.toString(), contemplacao.getDataContemplacao());
     }
     }
-    //READ
+
     public void getAllContemplacoes(){
         if(contemplacoes.isEmpty()){
-            System.out.println("\nNão há Contemplações registradas!\n")
+            System.out.println("\nNão há Contemplações registradas!\n");
         } else {
+            System.out.println("\nContratos Contemplados: \n");
             for(Contemplacao contemplacao : contemplacoes){
-                System.out.println("Contrato Contemplado: " + contemplacao.contratoContemplacao.cliente.getNome() 
-                + " (Data: " + contemplacao.getDataContemplacao() + " )\n");
+                System.out.println(contemplacao.getContratoContemplacao()
+                + "(Data: " + contemplacao.getDataContemplacao() + ")\nId: " + contemplacao.getIdContemplacao());
             }
         }
     }
     public void getContemplacao(Contrato contrato){
         Contemplacao temp = null;
         for(Contemplacao contemplacao : contemplacoes){
-            if(contemplacao.getContratoContemplacao().equalsIgnoreCase(contrato)){
+            if(contemplacao.getContratoContemplacao() == contrato) {
                 temp = contemplacao;
             }
         }
         if(temp != null){
             System.out.println(temp);
         } else {
-            System.out.println("\nNão existe registro de contemplações para este contrato!\n")
+            System.out.println("\nNão existe registro de contemplações para este contrato!\n");
         }
     }
-    //UPDATE
-    public void updateContemplacao(Contrato contratoContemplacao, LocalDate dataContemplacao){
-        int aux = 0;
-       if(contratoContemplacao != null){
-        contemplacoes.setContratoContemplacao(contratoContemplacao);
-        aux++;
-       }
-       if(dataContemplacao != null){
-        contemplacoes.setDataContemplacao(dataContemplacao);
-        aux++;
-       }
-       if(aux == 2){
-        System.out.println("Contemplação criada e realizada com sucesso!\n\n");
-       } else {
-        System.out.println("Não foi possível realizar contemplação! Dados inválidos!\n\n");
-       }
-    }
-    //DELETE
-    public void deleteContemplacao(Contrato contrato){
-        Contemplacao temp = null;
+    public Contemplacao getContemplacaoById(int idContemplacao) {
         for(Contemplacao contemplacao : contemplacoes){
-            if(contemplacao.getContratoContemplacao().equalsIgnoreCase(contrato)){
-                temp = contemplacao;
+            if(contemplacao.getIdContemplacao() == idContemplacao) {
+                return contemplacao;
             }
         }
-        if(temp != null){
-            contemplacoes.remove(temp);
-            System.out.println("\nContemplação removida com sucesso!\n");
-        } else {
-            System.out.println("\nNão existe registro de contemplações para este contrato!\n")
+        System.out.println("Contemplação não encontrada");
+        return null;
+    }
+
+    public void updateContemplacao(int idContemplacao, LocalDate dataContemplacao) {
+        if(dataContemplacao != null){
+            getContemplacaoById(idContemplacao).setDataContemplacao(dataContemplacao);
+            System.out.println("Data atualizada com sucesso.");
+            return;
         }
+        System.out.println("Houve um erro no preenchimento de dados.");
+    }
+
+    public void deleteContemplacao(int idContemplacao) {
+        for(Contemplacao contemplacao : contemplacoes){
+            if(contemplacao.getIdContemplacao() == idContemplacao) {
+                contemplacoes.remove(contemplacao);
+                System.out.println("Contemplação removida com sucesso.");
+                return;
+            }
+        }
+        System.out.println("Não foi possível remover a contemplação desejada.");
     }
 }

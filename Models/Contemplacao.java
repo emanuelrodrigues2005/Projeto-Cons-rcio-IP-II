@@ -5,13 +5,14 @@ import Enums.StatusContratoEnum;
 import java.util.Random;
 
 public class Contemplacao {
+	private int idContemplacao;
     private Contrato contratoContemplacao;
 	private LocalDate dataContemplacao;
 	
-	public Contemplacao(Contrato contratoContemplacao, LocalDate dataContemplacao) {
-		super();
+	public Contemplacao(Contrato contratoContemplacao) {
 		this.contratoContemplacao = contratoContemplacao;
 		this.dataContemplacao = java.time.LocalDate.now();
+		this.idContemplacao = new Random().nextInt(10000000) + 1;
 	}
 
 	public Contrato getContratoContemplacao() {
@@ -28,6 +29,10 @@ public class Contemplacao {
 
 	public void setDataContemplacao(LocalDate dataContemplacao) {
 		this.dataContemplacao = dataContemplacao;
+	}
+
+	public int getIdContemplacao() {
+		return idContemplacao;
 	}
 
 	public void sorteioContemplacao() {
@@ -47,7 +52,7 @@ public class Contemplacao {
 		GrupoConsorcio grupo = contrato.getGrupoAssociado();
 		grupo.getListaContratosContemplados().add(contrato);
         } else {
-            System.out.println("Contrato inexistente! Contemplação não adicionada!")
+            System.out.println("Contrato inexistente! Contemplação não adicionada!");
         }
 	}
 }

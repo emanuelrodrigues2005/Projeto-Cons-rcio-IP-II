@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Contrato {
     private Cliente cliente;
     private GrupoConsorcio grupoAssociado;
+    private Contemplacao contemplacaoAssociada;
     private int parcelasPagas;
     private double saldoDevedor;
     private double saldoDevolucao;
@@ -88,7 +89,15 @@ public class Contrato {
         this.saldoDevolucao = novoSaldoDevolucao;
     } 
 
+    public Contemplacao getContemplacaoAssociada() {
+        return contemplacaoAssociada;
+    }
+
+    public void setContemplacaoAssociada(Contemplacao novaContemplacao) {
+        this.contemplacaoAssociada = novaContemplacao;
+    }
+
     public String toString() {
-        return "Cliente: " + this.getCliente().getNome() + "\nCPF: " + this.getCliente().getCpf() + "\nGrupo associado: " + this.getGrupoAssociado().getNomeGrupo() + "\nStatus: " + this.getStatusContrato() + "\nParcelas pagas: " + this.getParcelasPagas() + "\nSaldo devedor: " + this.getSaldoDevedor() + "\n\n";
+        return "Cliente: " + this.getCliente().getNome() + "\nCPF: " + this.getCliente().getCpf() + "\nGrupo associado: " + this.getGrupoAssociado().getNomeGrupo() + "\nStatus: " + this.getStatusContrato() + "\nParcelas pagas: " + this.getParcelasPagas() + "\nSaldo devedor: " + this.getSaldoDevedor() + "\n";
     }
 }
