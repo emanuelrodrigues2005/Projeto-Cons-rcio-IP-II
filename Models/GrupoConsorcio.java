@@ -1,7 +1,7 @@
 package Models;
 
-import Enums.StatusGrupoConsorcioEnum;
 import Enums.StatusContratoEnum;
+import Enums.StatusGrupoConsorcioEnum;
 
 import java.util.ArrayList;
 
