@@ -1,7 +1,6 @@
 public class ContemplacaoRepository {
     private ArrayList<Contemplacao> contemplacoes;
     
-    //CREATE
     public void createContemplacao(Contrato contratoContemplacao, LocalDate dataContemplacao){
         if(contratoContemplacao != null && dataContemplacao != null){
         Contemplacao contemplacao = new Contemplacao(contratoContemplacao, dataContemplacao);
@@ -9,7 +8,6 @@ public class ContemplacaoRepository {
         System.out.println("Contemplação criada e adicionada com sucesso!\n\n");
     }
     }
-    //READ
     public void getAllContemplacoes(){
         if(contemplacoes.isEmpty()){
             System.out.println("\nNão há Contemplações registradas!\n")
@@ -33,7 +31,6 @@ public class ContemplacaoRepository {
             System.out.println("\nNão existe registro de contemplações para este contrato!\n")
         }
     }
-    //UPDATE
     public void updateContemplacao(Contrato contratoContemplacao, LocalDate dataContemplacao){
         int aux = 0;
        if(contratoContemplacao != null){
@@ -50,7 +47,6 @@ public class ContemplacaoRepository {
         System.out.println("Não foi possível realizar contemplação! Dados inválidos!\n\n");
        }
     }
-    //DELETE
     public void deleteContemplacao(Contrato contrato){
         Contemplacao temp = null;
         for(Contemplacao contemplacao : contemplacoes){

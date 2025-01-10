@@ -38,8 +38,10 @@ public class Contemplacao {
 				contratoContemplacao = Vcontrato.getGrupoAssociado().getListaContratos().get(IndiceSorteado);
 				contratoContemplacao.setStatusContrato(StatusContratoEnum.CONTEMPLADO);
 				addOrdenarListaContemp(contratoContemplacao);
-			}
+			} else {
 			System.out.println("Este cliente não pode ser contemplado!");
+          }
+          //e essa alteração? oi? esse main apago?
 		}
 	}
 	private void addOrdenarListaContemp (Contrato contrato) {
