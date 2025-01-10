@@ -43,7 +43,11 @@ public class Contemplacao {
 		}
 	}
 	private void addOrdenarListaContemp (Contrato contrato) {
+        if(contrato != null){
 		GrupoConsorcio grupo = contrato.getGrupoAssociado();
 		grupo.getListaContratosContemplados().add(contrato);
+        } else {
+            System.out.println("Contrato inexistente! Contemplação não adicionada!")
+        }
 	}
 }
