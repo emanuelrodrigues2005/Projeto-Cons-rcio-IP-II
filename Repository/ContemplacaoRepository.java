@@ -33,22 +33,19 @@ public class ContemplacaoRepository {
             }
         }
     }
-    public void getContemplacao(Contrato contrato){
-        Contemplacao temp = null;
-        for(Contemplacao contemplacao : contemplacoes){
+    public Contemplacao getContemplacaoByContrato(Contrato contrato){
+        for(Contemplacao contemplacao : contemplacoes) {
             if(contemplacao.getContratoContemplacao() == contrato) {
-                temp = contemplacao;
+                System.out.println("Contemplação associada a este contrato foi encontrada");
+                return contemplacao;
             }
         }
-        if(temp != null){
-            System.out.println(temp);
-        } else {
-            System.out.println("\nNão existe registro de contemplações para este contrato!\n");
-        }
+        System.out.println("Contemplação associada a este contrato não foi encontrada");
+        return null;
     }
-    public Contemplacao getContemplacaoById(int idContemplacao) {
+    public Contemplacao getContemplacaoById(Contemplacao contemplacao_IN) {
         for(Contemplacao contemplacao : contemplacoes){
-            if(contemplacao.getIdContemplacao() == idContemplacao) {
+            if(contemplacao.getIdContemplacao() == contemplacao_IN.getIdContemplacao()) {
                 return contemplacao;
             }
         }
@@ -56,18 +53,18 @@ public class ContemplacaoRepository {
         return null;
     }
 
-    public void updateContemplacao(int idContemplacao, LocalDate dataContemplacao) {
+    public void updateContemplacao(Contemplacao contemplacao, LocalDate dataContemplacao) {
         if(dataContemplacao != null){
-            getContemplacaoById(idContemplacao).setDataContemplacao(dataContemplacao);
+            getContemplacaoById(contemplacao).setDataContemplacao(dataContemplacao);
             System.out.println("Data atualizada com sucesso.");
             return;
         }
         System.out.println("Houve um erro no preenchimento de dados.");
     }
 
-    public void deleteContemplacao(int idContemplacao) {
+    public void deleteContemplacao(Contemplacao contemplacao_IN) {
         for(Contemplacao contemplacao : contemplacoes){
-            if(contemplacao.getIdContemplacao() == idContemplacao) {
+            if(contemplacao.getIdContemplacao() == contemplacao_IN.getIdContemplacao()) {
                 contemplacoes.remove(contemplacao);
                 System.out.println("Contemplação removida com sucesso.");
                 return;
