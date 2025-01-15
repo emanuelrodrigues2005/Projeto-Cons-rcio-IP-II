@@ -22,7 +22,7 @@ public class ClienteRepository {
                     System.out.printf("Cliente: %s\n", cliente.getNome());
 
                     for (Contrato contrato : cliente.getContratos()) {
-                        System.out.printf("Grupo: %s | Saldo Devedor: %d | Status do Contrato: %s\n", contrato.getGrupoAssociado(), contrato.getSaldoDevedor(), contrato.getStatusContrato());
+                        System.out.printf("%s;\nSaldo Devedor: %.2f;\nStatus do Contrato: %s.\n\n", contrato.getGrupoAssociado(), contrato.getSaldoDevedor(), contrato.getStatusContrato());
                     }
                 }
             }
@@ -35,6 +35,7 @@ public class ClienteRepository {
         try {
             for (Cliente cliente : clientes) {
                 if (cliente.getCpf().equals(cpf)) {
+                    System.out.println(cliente);
                     return cliente;
                 }
             }
@@ -44,7 +45,7 @@ public class ClienteRepository {
         return null;
     }
 
-    public void createCliente(String nome, String cpf, String telefone, String email) {
+    public Cliente createCliente(String nome, String cpf, String telefone, String email) {
         try {
             if (getClienteByCpf(cpf) == null) {
                 Cliente cliente = new Cliente(nome, cpf, telefone, email);
@@ -53,16 +54,18 @@ public class ClienteRepository {
 
                 System.out.println(cliente);
 
-                System.out.printf("Cliente '%s' adicionado com sucesso!\n", cliente.getNome());
+                System.out.printf("Cliente '%s' adicionado com sucesso!\n\n", cliente.getNome());
+                return cliente;
             } else {
                 System.out.println("Cpf já cadastrado para um cliente!");
             }
         } catch (Exception e) {
             System.out.println("Erro ao criar cliente: " + e.getMessage());
         }
+        return null;
     }
 
-    public void updateCliente(String cpf, String novoNome, String novoTelefone, String novoEmail) {
+    public Cliente updateCliente(String cpf, String novoNome, String novoTelefone, String novoEmail) {
         try {
             Cliente clienteTemp = getClienteByCpf(cpf);
 
@@ -79,13 +82,16 @@ public class ClienteRepository {
                     clienteTemp.setEmail(novoEmail);
                 }
 
+                System.out.println(clienteTemp);
                 System.out.println("\nCliente atualizado com sucesso!\n");
+                return clienteTemp;
             } else {
                 System.out.println("\nNenhum cliente encontrado com o CPF informado!\n");
             }
         } catch (Exception e) {
             System.out.println("Erro ao atualizar cliente: " + e.getMessage());
         }
+        return null;
     }
 
     public void deleteCliente(String cpf) {
@@ -94,7 +100,7 @@ public class ClienteRepository {
 
             if (clienteTemp != null) {
                 clientes.remove(clienteTemp);
-                System.out.println("\nCliente deletado com sucesso!\n");
+                System.out.printf("\nCliente '%s' deletado com sucesso!\n", clienteTemp.getNome());
             } else {
                 System.out.println("\nNenhum cliente encontrado com o CPF informado!\n");
             }
