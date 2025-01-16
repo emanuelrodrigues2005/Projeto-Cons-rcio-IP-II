@@ -13,11 +13,11 @@ public class Boleto {
     // Atributos
     private int idBoleto;
     private Contrato contratoBoleto;
-    private double valorBoleto; //
+    private double valorBoleto;
     private LocalDate dataVencimento;
     private LocalDate dataPagamento;
     private LocalDate dataEmissao;
-    private StatusBoletoEnum statusBoleto; //
+    private StatusBoletoEnum statusBoleto;
     private int numeroParcela;
 
     // Construtor
@@ -66,5 +66,4 @@ public class Boleto {
     public void setDataEmissao(LocalDate dataEmsissao) { this.dataEmissao = dataEmsissao; }
 
     public void setStatusBoleto(StatusBoletoEnum statusBoleto) { this.statusBoleto = statusBoleto; }
-
 }
