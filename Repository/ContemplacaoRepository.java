@@ -1,4 +1,4 @@
-package Repository;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class ContemplacaoRepository {
         } else {
             System.out.println("\nContratos Contemplados: \n");
             for(Contemplacao contemplacao : contemplacoes){
-                System.out.println(contemplacao.getContratoContemplacao()
+                System.out.println("/n" + contemplacao.getContratoContemplacao()
                 + "(Data: " + contemplacao.getDataContemplacao() + ")\nId: " + contemplacao.getIdContemplacao());
             }
         }

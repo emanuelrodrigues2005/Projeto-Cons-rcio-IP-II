@@ -1,4 +1,4 @@
-package Repository;
+
 
 import Enums.StatusGrupoConsorcioEnum;
 import Models.GrupoConsorcio;

@@ -2,6 +2,9 @@ package Models;
 
 import java.time.LocalDate;
 import Enums.StatusContratoEnum;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Contemplacao {
@@ -37,24 +40,29 @@ public class Contemplacao {
 
 	public void sorteioContemplacao() {
 		Random rand = new Random();
-		for (Contrato Vcontrato : contratoContemplacao.getGrupoAssociado().getListaContratos()) {
-			if(Vcontrato.getStatusContrato() == StatusContratoEnum.ATIVO) {
-				int IndiceSorteado = rand.nextInt(Vcontrato.getGrupoAssociado().getListaContratos().size());
-				contratoContemplacao = Vcontrato.getGrupoAssociado().getListaContratos().get(IndiceSorteado);
-				contratoContemplacao.setStatusContrato(StatusContratoEnum.CONTEMPLADO);
-				addOrdenarListaContemp(contratoContemplacao);
-			} else {
-			System.out.println("Este cliente não pode ser contemplado!");
-          }
-          //e essa alteração? oi? esse main apago?
-		}
+		List<Contrato> contratosAtivos = new ArrayList<>();
+    
+        for (Contrato contrato : contratoContemplacao.getGrupoAssociado().getListaContratos()) {
+        if (contrato.getStatusContrato() == StatusContratoEnum.ATIVO) {
+            contratosAtivos.add(contrato);
+        }
+    }
+      if (!contratosAtivos.isEmpty()) {
+               int indiceSorteado = rand.nextInt(contratosAtivos.size());
+               Contrato contratoContemplado = contratosAtivos.get(indiceSorteado);
+               contratoContemplado.setStatusContrato(StatusContratoEnum.CONTEMPLADO);
+               addOrdenarListaContemp(contratoContemplado);
+               System.out.println("\nContrato contemplado: " + contratoContemplado.getCliente().getNome());
+    } else {
+        System.out.println("\nNão há contratos ativos para contemplação.");
+      }
 	}
 	private void addOrdenarListaContemp (Contrato contrato) {
         if(contrato != null){
 		GrupoConsorcio grupo = contrato.getGrupoAssociado();
 		grupo.getListaContratosContemplados().add(contrato);
         } else {
-            System.out.println("Contrato inexistente! Contemplação não adicionada!");
+            System.out.println("\nContrato inexistente! Contemplação não adicionada!");
         }
 	}
 }
