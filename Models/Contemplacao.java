@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Random;
 
 public class Contemplacao {
-	private int idContemplacao;
+	private static int idContemplacao;
     private Contrato contratoContemplacao;
 	private LocalDate dataContemplacao;
 	
 	public Contemplacao(Contrato contratoContemplacao) {
 		this.contratoContemplacao = contratoContemplacao;
 		this.dataContemplacao = java.time.LocalDate.now();
-		this.idContemplacao = new Random().nextInt(10000000) + 1;
+		idContemplacao = new Random().nextInt(10000000) + 1;
 	}
 
 	public Contrato getContratoContemplacao() {
@@ -64,5 +64,10 @@ public class Contemplacao {
         } else {
             System.out.println("\nContrato inexistente! Contemplação não adicionada!");
         }
+	}
+
+	@Override
+	public String toString() {
+		return "\n" + getContratoContemplacao() + "(Data: " + getDataContemplacao() + ")\nId: " + getIdContemplacao();
 	}
 }
