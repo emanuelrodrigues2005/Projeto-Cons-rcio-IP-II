@@ -19,7 +19,7 @@ public class ContemplacaoRepository {
             Contemplacao contemplacao = new Contemplacao(contratoContemplacao);
             contemplacoes.add(contemplacao);
             System.out.printf("\nContemplação criada e adicionada com sucesso!\n\n%sData: %s\n", contratoContemplacao.toString(), contemplacao.getDataContemplacao());
-    }
+        }
     }
 
     public void getAllContemplacoes(){
