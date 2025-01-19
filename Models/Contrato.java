@@ -2,16 +2,18 @@ package Models;
 
 import Enums.StatusContratoEnum;
 
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Contrato {
     private Cliente cliente;
     private GrupoConsorcio grupoAssociado;
+    private Contemplacao contemplacaoAssociada;
     private int parcelasPagas;
     private double saldoDevedor;
     private double saldoDevolucao;
-    private LocalDate dataContemplação;
+    private LocalDate dataContemplacao;
     private StatusContratoEnum statusContrato;
     private ArrayList<Boleto> listaBoletosPagos;
     private ArrayList<Boleto> listaBoletosAtrasados;
@@ -51,12 +53,12 @@ public class Contrato {
         this.saldoDevedor = novoSaldo;
     }
 
-    public LocalDate getDataContemplação() {
-        return dataContemplação;
+    public LocalDate getDataContemplacao() {
+        return dataContemplacao;
     }
 
-    public void setDataContemplação(LocalDate dataContemplação) {
-        this.dataContemplação = dataContemplação;
+    public void setDataContemplacao(LocalDate dataContemplação) {
+        this.dataContemplacao = dataContemplação;
     }
 
     public StatusContratoEnum getStatusContrato() {
@@ -88,7 +90,15 @@ public class Contrato {
         this.saldoDevolucao = novoSaldoDevolucao;
     } 
 
+    public Contemplacao getContemplacaoAssociada() {
+        return contemplacaoAssociada;
+    }
+
+    public void setContemplacaoAssociada(Contemplacao novaContemplacao) {
+        this.contemplacaoAssociada = novaContemplacao;
+    }
+
     public String toString() {
-        return "Cliente: " + this.getCliente().getNome() + "\nCPF: " + this.getCliente().getCpf() + "\nGrupo associado: " + this.getGrupoAssociado().getNomeGrupo() + "\nStatus: " + this.getStatusContrato() + "\nParcelas pagas: " + this.getParcelasPagas() + "\nSaldo devedor: " + this.getSaldoDevedor() + "\n\n";
+        return "Cliente: " + this.getCliente().getNome() + "\nCPF: " + this.getCliente().getCpf() + "\nGrupo associado: " + this.getGrupoAssociado().getNomeGrupo() + "\nStatus: " + this.getStatusContrato() + "\nParcelas pagas: " + this.getParcelasPagas() + "\nSaldo devedor: " + this.getSaldoDevedor() + "\n";
     }
 }

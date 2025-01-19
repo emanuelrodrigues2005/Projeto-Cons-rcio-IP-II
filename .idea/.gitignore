@@ -14,3 +14,5 @@
 
 # Arquivos adicionais de configuração ou ambiente local
 *.xml
+
+/Testes/
