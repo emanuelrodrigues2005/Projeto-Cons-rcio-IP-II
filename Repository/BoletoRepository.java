@@ -155,18 +155,13 @@ public class BoletoRepository {
     public void realizarPagamento(int idBoleto) {
         Boleto boleto = getBoletoById(idBoleto);
         if (boleto != null) {
-            Contrato contrato = boleto.getContratoBoleto();
-
             if (boleto.getStatusBoleto() == StatusBoletoEnum.PENDENTE) {
                 boleto.setStatusBoleto(StatusBoletoEnum.PAGO);
                 boleto.setDataPagamento(LocalDate.now());
-                contrato.getListaBoletosPagos().add(boleto);
                 System.out.println("Boleto pago com sucesso.");
             } else if (boleto.getStatusBoleto() == StatusBoletoEnum.ATRASADO) {
                 boleto.setStatusBoleto(StatusBoletoEnum.PAGO);
                 boleto.setDataPagamento(LocalDate.now());
-                contrato.getListaBoletosAtrasados().remove(boleto); // Remove da lista de atrasados
-                contrato.getListaBoletosPagos().add(boleto); // Adiciona à lista de pagos
                 System.out.println("Boleto atrasado pago com sucesso. Multa aplicada.");
             } else {
                 System.out.println("Este boleto já foi pago anteriormente.");

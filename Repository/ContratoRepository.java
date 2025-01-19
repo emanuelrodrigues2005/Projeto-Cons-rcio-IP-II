@@ -28,18 +28,18 @@ public class ContratoRepository {
         System.out.println("Todos os contratos foram listados acima.");
     }
 
-    public void getAllContratosByCPF_S(String cpf) {
+    public void getAllContratosByCPF(Cliente cliente) {
         for (Contrato contrato : contratos) {
-            if (contrato.getCliente().getCpf().equalsIgnoreCase(cpf)) {
+            if (contrato.getCliente().getCpf().equalsIgnoreCase(cliente.getCpf())) {
                 System.out.println(contrato.toString());
             } 
         }
         System.out.println("Todos os contratos do cliente foram listados acima.");
     }
     
-    public Contrato getContratoByCPFNomeGrupo(String cpf, String nomeGrupo) {
+    public Contrato getContratoByCPFNomeGrupo(Cliente cliente, GrupoConsorcio grupoAssociado) {
         for (Contrato contrato : contratos) {
-            if (contrato.getCliente().getCpf().equalsIgnoreCase(cpf) && contrato.getGrupoAssociado().getNomeGrupo().equalsIgnoreCase(nomeGrupo)) {
+            if (contrato.getCliente().getCpf().equalsIgnoreCase(cliente.getCpf()) && contrato.getGrupoAssociado().getNomeGrupo().equalsIgnoreCase(grupoAssociado.getNomeGrupo())) {
                 return contrato;
             }
         }
@@ -47,9 +47,9 @@ public class ContratoRepository {
         return null;
     }
 
-    public String getContratosByNomeGrupo(String nomeGrupo) {
+    public String getContratosByNomeGrupo(GrupoConsorcio grupoAssociado) {
         for (Contrato contrato : contratos) {
-            if(contrato.getGrupoAssociado().getNomeGrupo().equalsIgnoreCase(nomeGrupo)) {
+            if(contrato.getGrupoAssociado().getNomeGrupo().equalsIgnoreCase(grupoAssociado.getNomeGrupo())) {
                 int counter = 0;
                 for(Contrato contratoListado : contrato.getGrupoAssociado().getListaContratos()) {
                     System.out.println(contratoListado);
@@ -66,7 +66,7 @@ public class ContratoRepository {
 
     public void createContrato(Cliente cliente, GrupoConsorcio grupoAssociado) {
         Contrato contrato = new Contrato(cliente, grupoAssociado);
-        if (getContratoByCPFNomeGrupo(cliente.getCpf(), grupoAssociado.getNomeGrupo()) == null)  {
+        if (getContratoByCPFNomeGrupo(cliente, grupoAssociado) == null)  {
             contratos.add(contrato);
             grupoAssociado.getListaContratos().add(contrato);
             cliente.getContratos().add(contrato);
@@ -76,9 +76,9 @@ public class ContratoRepository {
         }
     }
 
-    private void updateContrato(String cpf, int novasParcelas, double novoSaldoDevedor, Boleto boleto) {
+    private void updateContrato(Cliente cliente, int novasParcelas, double novoSaldoDevedor, Boleto boleto) {
         for(Contrato contrato : contratos) {
-            if(contrato.getCliente().getCpf().equalsIgnoreCase(cpf)) {
+            if(contrato.getCliente().getCpf().equalsIgnoreCase(cliente.getCpf())) {
                 if (novasParcelas > contrato.getParcelasPagas()) {
                     contrato.setParcelasPagas(novasParcelas);
                 }
@@ -95,28 +95,25 @@ public class ContratoRepository {
         }
     }
 
-    public void pagarParcela(String cpf, String nomeGrupo, Boleto boleto) {
-        if (getContratoByCPFNomeGrupo(cpf, nomeGrupo) != null & !(getContratoByCPFNomeGrupo(cpf, nomeGrupo).getListaBoletosPagos().contains(boleto))) {
+    public void pagarParcela(Cliente cliente, GrupoConsorcio grupoAssociado, Boleto boleto) {
+        if (getContratoByCPFNomeGrupo(cliente, grupoAssociado) != null & !(getContratoByCPFNomeGrupo(cliente, grupoAssociado).getListaBoletosPagos().contains(boleto))) {
             if (boleto.getStatusBoleto() == StatusBoletoEnum.PAGO) {
-                Contrato contrato = getContratoByCPFNomeGrupo(cpf, nomeGrupo);
-                updateContrato(cpf, contrato.getParcelasPagas() + 1, contrato.getSaldoDevedor() - contrato.getGrupoAssociado().getValorParcela(), boleto);
+                Contrato contrato = getContratoByCPFNomeGrupo(cliente, grupoAssociado);
+                updateContrato(cliente, contrato.getParcelasPagas() + 1, contrato.getSaldoDevedor() - contrato.getGrupoAssociado().getValorParcela(), boleto);
                 System.out.println("A parcela foi paga com sucesso.");
             } else if (boleto.getStatusBoleto() == StatusBoletoEnum.PENDENTE) {
                 System.out.println("O boleto ainda está pendente de pagamento. Operação negada");
             } else if (boleto.getStatusBoleto() == StatusBoletoEnum.ATRASADO) {
-                Contrato contrato = getContratoByCPFNomeGrupo(cpf, nomeGrupo);
-                boleto.setStatusBoleto(StatusBoletoEnum.PAGO);
-                updateContrato(cpf, contrato.getParcelasPagas() + 1, contrato.getSaldoDevedor() - contrato.getGrupoAssociado().getValorParcela(), boleto);
-                System.out.println("O boleto atrasado foi pago com uma multa.");
+                System.out.println("O boleto ainda está pendente de pagamento e está atrasado no momento. Operação negada");
             } 
         } else {
             System.out.println("O cliente não foi encontrado ou o boleto já foi pago.");
         }
     }
 
-    public void cancelarContrato(String cpf, String nomeGrupo) {
-        if (getContratoByCPFNomeGrupo(cpf, nomeGrupo) != null) {
-            Contrato contrato = getContratoByCPFNomeGrupo(cpf, nomeGrupo);
+    public void cancelarContrato(Cliente cliente, GrupoConsorcio grupoAssociado) {
+        if (getContratoByCPFNomeGrupo(cliente, grupoAssociado) != null) {
+            Contrato contrato = getContratoByCPFNomeGrupo(cliente, grupoAssociado);
             contrato.setStatusContrato(StatusContratoEnum.ENCERRADO);
             double saldoDevolucao = (contrato.getGrupoAssociado().getValorTotal() / contrato.getGrupoAssociado().getNumeroParticipantes()) * contrato.getParcelasPagas();
             contrato.setSaldoDevolucao(saldoDevolucao);
@@ -126,8 +123,8 @@ public class ContratoRepository {
         }
     }
 
-    public void deleteContrato(String cpf, String nomeGrupo) {
-        Contrato contrato = getContratoByCPFNomeGrupo(cpf, nomeGrupo);
+    public void deleteContrato(Cliente cliente, GrupoConsorcio grupoAssociado) {
+        Contrato contrato = getContratoByCPFNomeGrupo(cliente, grupoAssociado);
         if (contrato != null) {
             contratos.remove(contrato);
             System.out.println("Contrato removido com sucesso.");
