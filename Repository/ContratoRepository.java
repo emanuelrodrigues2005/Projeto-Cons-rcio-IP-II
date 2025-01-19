@@ -115,9 +115,8 @@ public class ContratoRepository {
         if (getContratoByCPFNomeGrupo(cliente, grupoAssociado) != null) {
             Contrato contrato = getContratoByCPFNomeGrupo(cliente, grupoAssociado);
             contrato.setStatusContrato(StatusContratoEnum.ENCERRADO);
-            double saldoDevolucao = (contrato.getGrupoAssociado().getValorTotal() / contrato.getGrupoAssociado().getNumeroParticipantes()) * contrato.getParcelasPagas();
-            contrato.setSaldoDevolucao(saldoDevolucao);
-            System.out.printf("Contrato cancelado com sucesso, suas parcelas pagas serão devolvidas após o término do consórcio.\nTotal a ser devolvido: %.2f\n", saldoDevolucao);
+            contrato.setSaldoDevolucao(contrato.calcularSaldoDevolucao());
+            System.out.printf("Contrato cancelado com sucesso, suas parcelas pagas serão devolvidas após o término do consórcio.\n" );
         } else {
             System.out.println("Contrato não encontrado não pôde ser cancelado.");
         }

@@ -98,6 +98,10 @@ public class Contrato {
         this.contemplacaoAssociada = novaContemplacao;
     }
 
+    public double calcularSaldoDevolucao() {
+        return (this.getGrupoAssociado().getValorTotal() / this.getGrupoAssociado().getNumeroParticipantes()) * this.getParcelasPagas();
+    }
+
     public String toString() {
         return "Cliente: " + this.getCliente().getNome() + "\nCPF: " + this.getCliente().getCpf() + "\nGrupo associado: " + this.getGrupoAssociado().getNomeGrupo() + "\nStatus: " + this.getStatusContrato() + "\nParcelas pagas: " + this.getParcelasPagas() + "\nSaldo devedor: " + this.getSaldoDevedor() + "\n";
     }
