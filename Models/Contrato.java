@@ -13,7 +13,7 @@ public class Contrato {
     private int parcelasPagas;
     private double saldoDevedor;
     private double saldoDevolucao;
-    private LocalDate dataContemplação;
+    private LocalDate dataContemplacao;
     private StatusContratoEnum statusContrato;
     private ArrayList<Boleto> listaBoletosPagos;
     private ArrayList<Boleto> listaBoletosAtrasados;
@@ -53,12 +53,12 @@ public class Contrato {
         this.saldoDevedor = novoSaldo;
     }
 
-    public LocalDate getDataContemplação() {
-        return dataContemplação;
+    public LocalDate getDataContemplacao() {
+        return dataContemplacao;
     }
 
-    public void setDataContemplação(LocalDate dataContemplação) {
-        this.dataContemplação = dataContemplação;
+    public void setDataContemplacao(LocalDate dataContemplação) {
+        this.dataContemplacao = dataContemplação;
     }
 
     public StatusContratoEnum getStatusContrato() {
