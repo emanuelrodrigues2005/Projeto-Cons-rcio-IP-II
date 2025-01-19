@@ -13,14 +13,11 @@ public class BoletoRepository {
 
     public void createBoleto(Contrato contratoBoleto, LocalDate dataEmissao, LocalDate dataVencimento, int numeroParcela) {
         if (contratoBoleto == null) {
-            System.out.println("Erro: O contrato do boleto não pode ser nulo."); return;
-        }
+            System.out.println("Erro: O contrato do boleto não pode ser nulo."); return; }
         if (dataEmissao == null || dataVencimento == null) {
-            System.out.println("Erro: As datas de emissão e vencimento não podem ser nulas."); return;
-        }
+            System.out.println("Erro: As datas de emissão e vencimento não podem ser nulas."); return; }
         if (dataVencimento.isBefore(dataEmissao)) {
-            System.out.println("Erro: A data de vencimento não pode ser anterior à data de emissão."); return;
-        }
+            System.out.println("Erro: A data de vencimento não pode ser anterior à data de emissão."); return; }
 
         Boleto boleto = new Boleto(contratoBoleto, dataEmissao, dataVencimento, numeroParcela);
         boletos.add(boleto);
@@ -50,14 +47,14 @@ public class BoletoRepository {
         return null;
     }
 
-    public void updateBoleto(int idBoleto, Boleto dadosAtualizacao) {
-        Boleto boletoExistente = getBoletoById(idBoleto);
-        if (boletoExistente != null) {
-            if (dadosAtualizacao.getDataEmissao() != null) {
-                boletoExistente.setDataEmissao(dadosAtualizacao.getDataEmissao());
+    public void updateBoleto(int idBoleto, Boleto boletoAtualizar) {
+        Boleto boletoAtualizado = getBoletoById(idBoleto);
+        if (boletoAtualizado != null) {
+            if (boletoAtualizar.getDataEmissao() != null) {
+                boletoAtualizado.setDataEmissao(boletoAtualizar.getDataEmissao());
             }
-            if (dadosAtualizacao.getDataVencimento() != null) {
-                boletoExistente.setDataVencimento(dadosAtualizacao.getDataVencimento());
+            if (boletoAtualizar.getDataVencimento() != null) {
+                boletoAtualizado.setDataVencimento(boletoAtualizar.getDataVencimento());
             }
             System.out.println("Boleto com ID " + idBoleto + " atualizado com sucesso.");
         } else {
@@ -90,7 +87,7 @@ public class BoletoRepository {
         }
     }
 
-    private void atualizarStatusBoleto(Boleto boleto) {
+    public void atualizarStatusBoleto(Boleto boleto) {
         if (boleto.getStatusBoleto() == StatusBoletoEnum.PENDENTE && LocalDate.now().isAfter(boleto.getDataVencimento())) {
             boleto.setStatusBoleto(StatusBoletoEnum.ATRASADO);
             boleto.getContratoBoleto().getListaBoletosAtrasados().add(boleto);
@@ -149,13 +146,18 @@ public class BoletoRepository {
     public void realizarPagamento(int idBoleto) {
         Boleto boleto = getBoletoById(idBoleto);
         if (boleto != null) {
+            Contrato contrato = boleto.getContratoBoleto();
+
             if (boleto.getStatusBoleto() == StatusBoletoEnum.PENDENTE) {
                 boleto.setStatusBoleto(StatusBoletoEnum.PAGO);
                 boleto.setDataPagamento(LocalDate.now());
+                contrato.getListaBoletosPagos().add(boleto);
                 System.out.println("Boleto pago com sucesso.");
             } else if (boleto.getStatusBoleto() == StatusBoletoEnum.ATRASADO) {
                 boleto.setStatusBoleto(StatusBoletoEnum.PAGO);
                 boleto.setDataPagamento(LocalDate.now());
+                contrato.getListaBoletosAtrasados().remove(boleto); // Remove da lista de atrasados
+                contrato.getListaBoletosPagos().add(boleto); // Adiciona à lista de pagos
                 System.out.println("Boleto atrasado pago com sucesso. Multa aplicada.");
             } else {
                 System.out.println("Este boleto já foi pago anteriormente.");
