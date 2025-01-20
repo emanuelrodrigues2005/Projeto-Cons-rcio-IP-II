@@ -75,14 +75,13 @@ public class BoletoRepository {
         }
     }
 
-    // Verifica vencimento de todos os boletos no repositório
-    public void verificarVencimentos() {
+    public void verificarAllVencimentos() {
         for (Boleto boleto : boletos) {
             atualizarStatusBoleto(boleto);
         }
     }
 
-    public void verificarVencimentoPorId(int idBoleto) {
+    public void verificarVencimento(int idBoleto) {
         Boleto boleto = getBoletoById(idBoleto);
         if (boleto != null) {
             atualizarStatusBoleto(boleto);
@@ -91,19 +90,14 @@ public class BoletoRepository {
         }
     }
 
-    private void atualizarStatusBoleto(Boleto boleto) {
+    public void atualizarStatusBoleto(Boleto boleto) {
         if (boleto.getStatusBoleto() == StatusBoletoEnum.PENDENTE && LocalDate.now().isAfter(boleto.getDataVencimento())) {
             boleto.setStatusBoleto(StatusBoletoEnum.ATRASADO);
             boleto.getContratoBoleto().getListaBoletosAtrasados().add(boleto);
             System.out.println("Boleto ID " + boleto.getIdBoleto() + " atualizado para ATRASADO.");
-        } else if (boleto.getStatusBoleto() == StatusBoletoEnum.ATRASADO && LocalDate.now().isBefore(boleto.getDataVencimento())) {
-            boleto.setStatusBoleto(StatusBoletoEnum.PENDENTE);
-            boleto.getContratoBoleto().getListaBoletosAtrasados().remove(boleto);
-            System.out.println("Boleto ID " + boleto.getIdBoleto() + " atualizado para PENDENTE.");
         }
     }
 
-    // Exibe informações de um boleto específico
     public void printarBoleto(int idBoleto) {
         Boleto boleto = getBoletoById(idBoleto);
         if (boleto != null) {
@@ -121,7 +115,7 @@ public class BoletoRepository {
         }
     }
 
-    public void printBoletosPorContrato(Contrato contrato) {
+    public void printAllBoletosContratos(Contrato contrato) {
         if (contrato == null) {
             System.out.println("O contrato fornecido é inválido.");
             return;
